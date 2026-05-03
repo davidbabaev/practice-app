@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="flex flex-1 items-center justify-center bg-neutral-950 px-6 py-16 font-sans text-neutral-50">
@@ -21,6 +23,31 @@ export default function Home() {
           >
             Learn more
           </button>
+        </div>
+        <div className="mt-12 flex flex-col items-center gap-3 sm:mt-16">
+          <p className="text-xs uppercase tracking-wider text-neutral-500">
+            Featured
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            <Link
+              href="/p/ada"
+              className="rounded-full border border-neutral-800 px-3 py-1 text-sm text-neutral-300 transition-colors hover:border-neutral-600 hover:text-neutral-50"
+            >
+              @ada
+            </Link>
+            <Link
+              href="/p/linus"
+              className="rounded-full border border-neutral-800 px-3 py-1 text-sm text-neutral-300 transition-colors hover:border-neutral-600 hover:text-neutral-50"
+            >
+              @linus
+            </Link>
+            <Link
+              href="/p/grace"
+              className="rounded-full border border-neutral-800 px-3 py-1 text-sm text-neutral-300 transition-colors hover:border-neutral-600 hover:text-neutral-50"
+            >
+              @grace
+            </Link>
+          </div>
         </div>
       </section>
     </main>
