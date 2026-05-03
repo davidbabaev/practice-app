@@ -30,6 +30,12 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap justify-center gap-2">
             <Link
+              href="/feed"
+              className="rounded-full border border-neutral-800 px-3 py-1 text-sm text-neutral-300 transition-colors hover:border-neutral-600 hover:text-neutral-50"
+            >
+              Feed
+            </Link>
+            <Link
               href="/p/ada"
               className="rounded-full border border-neutral-800 px-3 py-1 text-sm text-neutral-300 transition-colors hover:border-neutral-600 hover:text-neutral-50"
             >
