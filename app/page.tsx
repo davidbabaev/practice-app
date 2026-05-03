@@ -11,12 +11,12 @@ export default function Home() {
           The social network that doesn&apos;t sell your attention.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
-          <button
-            type="button"
+          <Link
+            href="/join"
             className="rounded-full bg-neutral-50 px-6 py-3 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-50"
           >
             Get started
-          </button>
+          </Link>
           <button
             type="button"
             className="rounded-full border border-neutral-700 px-6 py-3 text-sm font-medium text-neutral-50 transition-colors hover:border-neutral-500 hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-50"
