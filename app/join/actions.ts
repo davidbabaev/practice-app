@@ -8,6 +8,7 @@ export type SignupState =
   | { status: "error"; error: string };
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const MAX_EMAIL_LENGTH = 254; // RFC 5321 path length
 
 export async function signupAction(
   _prevState: SignupState,
@@ -16,6 +17,10 @@ export async function signupAction(
   const raw = formData.get("email");
   if (typeof raw !== "string" || raw.trim() === "") {
     return { status: "error", error: "Email is required." };
+  }
+
+  if (raw.length > MAX_EMAIL_LENGTH) {
+    return { status: "error", error: "Email is too long." };
   }
 
   const email = raw.trim().toLowerCase();
