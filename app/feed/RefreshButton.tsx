@@ -19,9 +19,8 @@ export function RefreshButton() {
               await refreshFeed();
               setError(null);
             } catch (e) {
-              setError(
-                e instanceof Error ? e.message : "Couldn't refresh the feed.",
-              );
+              console.error(e);
+              setError("Couldn't refresh the feed.");
             }
           });
         }}
@@ -30,7 +29,7 @@ export function RefreshButton() {
         {isPending ? "Refreshing…" : "Refresh"}
       </button>
       {error ? (
-        <p role="alert" className="text-xs text-red-400">
+        <p aria-live="polite" className="text-xs text-red-400">
           {error}
         </p>
       ) : null}
