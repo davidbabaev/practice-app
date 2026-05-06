@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { AskChat } from "./AskChat";
 
 export const metadata: Metadata = {
@@ -24,7 +25,16 @@ export default function AskPage() {
           Ask anything. Answers stream in token-by-token.
         </p>
         <div className="mt-10">
-          <AskChat />
+          <Suspense
+            fallback={
+              <div className="flex flex-col gap-6" aria-hidden="true">
+                <p className="text-center text-sm text-neutral-500">Loading…</p>
+                <div className="h-[88px] rounded-2xl border border-neutral-800 bg-neutral-900" />
+              </div>
+            }
+          >
+            <AskChat />
+          </Suspense>
         </div>
       </section>
     </main>
