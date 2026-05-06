@@ -7,7 +7,15 @@ import { useState, type FormEvent, type KeyboardEvent } from "react";
 const MAX_INPUT_LENGTH = 4000;
 
 export function AskChat() {
-  const { messages, sendMessage, status, error, stop } = useChat({
+  const {
+    messages,
+    sendMessage,
+    setMessages,
+    status,
+    error,
+    stop,
+    clearError,
+  } = useChat({
     transport: new DefaultChatTransport({ api: "/api/ask" }),
   });
   const [input, setInput] = useState("");
@@ -29,33 +37,50 @@ export function AskChat() {
     }
   }
 
+  function handleClear() {
+    if (isStreaming) stop();
+    setMessages([]);
+    clearError();
+  }
+
   return (
     <div className="flex flex-col gap-6">
       {messages.length === 0 ? (
-        <p className="text-sm text-neutral-500">
-          Try: &ldquo;What is Pulse?&rdquo; or &ldquo;Suggest three usernames.&rdquo;
+        <p className="text-center text-sm text-neutral-400">
+          Hi, I&apos;m Pulse. Ask me anything.
         </p>
       ) : (
-        <ul
-          aria-live="polite"
-          aria-busy={isStreaming}
-          className="flex flex-col gap-4"
-        >
-          {messages.map((m) => (
-            <li
-              key={m.id}
-              className={
-                m.role === "user"
-                  ? "self-end max-w-[85%] rounded-2xl bg-neutral-50 px-4 py-2 text-sm text-neutral-950"
-                  : "self-start max-w-[85%] rounded-2xl border border-neutral-800 px-4 py-2 text-sm text-neutral-100 whitespace-pre-wrap"
-              }
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleClear}
+              className="text-xs text-neutral-500 transition-colors hover:text-neutral-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-50"
             >
-              {m.parts.map((part, i) =>
-                part.type === "text" ? <span key={i}>{part.text}</span> : null,
-              )}
-            </li>
-          ))}
-        </ul>
+              Clear
+            </button>
+          </div>
+          <ul
+            aria-live="polite"
+            aria-busy={isStreaming}
+            className="flex flex-col gap-4"
+          >
+            {messages.map((m) => (
+              <li
+                key={m.id}
+                className={
+                  m.role === "user"
+                    ? "self-end max-w-[85%] rounded-2xl bg-neutral-50 px-4 py-2 text-sm text-neutral-950"
+                    : "self-start max-w-[85%] rounded-2xl border border-neutral-800 px-4 py-2 text-sm text-neutral-100 whitespace-pre-wrap"
+                }
+              >
+                {m.parts.map((part, i) =>
+                  part.type === "text" ? <span key={i}>{part.text}</span> : null,
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {error ? (
