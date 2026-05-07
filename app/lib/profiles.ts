@@ -29,3 +29,7 @@ const profiles: Profile[] = [
 export function getProfile(handle: string): Profile | undefined {
   return profiles.find((p) => p.handle === handle);
 }
+
+export function getAllHandles(): string[] {
+  return profiles.map((p) => p.handle);
+}

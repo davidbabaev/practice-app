@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProfile } from "@/app/lib/profiles";
+import { getAllHandles, getProfile } from "@/app/lib/profiles";
 
 type Props = {
   params: Promise<{ handle: string }>;
 };
+
+export function generateStaticParams() {
+  return getAllHandles().map((handle) => ({ handle }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
