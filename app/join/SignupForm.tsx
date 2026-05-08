@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { signupAction, type SignupState } from "./actions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const initialState: SignupState = { status: "idle" };
 
@@ -16,7 +18,7 @@ export function SignupForm() {
       <label htmlFor="email" className="sr-only">
         Email
       </label>
-      <input
+      <Input
         id="email"
         name="email"
         type="email"
@@ -24,15 +26,10 @@ export function SignupForm() {
         disabled={isPending}
         placeholder="you@example.com"
         autoComplete="email"
-        className="rounded-full border border-neutral-700 bg-neutral-900 px-5 py-3 text-sm text-neutral-50 placeholder:text-neutral-500 focus-visible:border-neutral-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-50 disabled:opacity-60"
       />
-      <button
-        type="submit"
-        disabled={isPending}
-        className="rounded-full bg-neutral-50 px-6 py-3 text-sm font-medium text-neutral-950 transition-colors hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-50 disabled:opacity-60"
-      >
+      <Button type="submit" disabled={isPending}>
         {isPending ? "Joining…" : "Join Pulse"}
-      </button>
+      </Button>
       <p className="min-h-5 text-center text-sm" aria-live="polite">
         {state.status === "success" && (
           <span className="text-emerald-400">
