@@ -2,20 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getAllSlugs, getCar } from "@/app/lib/cars";
+import { getAllSlugs, getCar } from "@/app/lib/cars-data";
 import { BookingForm } from "./BookingForm";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const car = getCar(slug);
+  const car = await getCar(slug);
   if (!car) {
     return { title: "Booking · Onyx" };
   }
@@ -27,14 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BookingPage({ params }: Props) {
   const { slug } = await params;
-  const car = getCar(slug);
+  const car = await getCar(slug);
   if (!car) {
     notFound();
   }
 
   return (
     <main className="flex-1 bg-neutral-950 text-neutral-50">
-      <div className="mx-auto max-w-5xl px-6 py-10 sm:px-10 sm:py-14">
+      <div className="mx-auto max-w-5xl px-6 pt-28 pb-10 sm:px-10 sm:pt-32 sm:pb-14">
         <Link
           href={`/cars/${car.slug}`}
           className="text-sm text-neutral-400 transition-colors hover:text-neutral-50"

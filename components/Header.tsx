@@ -1,10 +1,32 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const SCROLL_THRESHOLD = 80;
 
 export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-sm">
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300",
+        scrolled
+          ? "border-neutral-800 bg-neutral-950/80 backdrop-blur-sm"
+          : "border-transparent bg-transparent",
+      )}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-10">
         <Link
           href="/"

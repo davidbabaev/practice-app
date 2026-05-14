@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { Button } from "@/components/ui/button";
-import { getCar } from "@/app/lib/cars";
+import { getCar } from "@/app/lib/cars-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,7 +43,7 @@ function confirmationCode(seed: string): string {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const car = getCar(slug);
+  const car = await getCar(slug);
   if (!car) {
     return { title: "Booked · Onyx" };
   }
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function ConfirmationPage({ params, searchParams }: Props) {
   return (
     <main className="flex-1 bg-neutral-950 text-neutral-50">
-      <div className="mx-auto flex max-w-2xl flex-col items-center px-6 py-16 text-center sm:px-10 sm:py-24">
+      <div className="mx-auto flex max-w-2xl flex-col items-center px-6 pt-32 pb-16 text-center sm:px-10 sm:pt-40 sm:pb-24">
         <Suspense fallback={<ConfirmationSkeleton />}>
           <ConfirmationContent params={params} searchParams={searchParams} />
         </Suspense>
@@ -68,7 +68,7 @@ export default function ConfirmationPage({ params, searchParams }: Props) {
 async function ConfirmationContent({ params, searchParams }: Props) {
   const { slug } = await params;
   const { start, end } = await searchParams;
-  const car = getCar(slug);
+  const car = await getCar(slug);
 
   if (
     !car ||

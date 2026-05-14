@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { Button } from "@/components/ui/button";
-import { getCar } from "@/app/lib/cars";
+import { getCar } from "@/app/lib/cars-data";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -30,7 +30,7 @@ function formatDate(iso: string): string {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const car = getCar(slug);
+  const car = await getCar(slug);
   if (!car) {
     return { title: "Checkout · Onyx" };
   }
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function CheckoutPage({ params, searchParams }: Props) {
   return (
     <main className="flex-1 bg-neutral-950 text-neutral-50">
-      <div className="mx-auto max-w-3xl px-6 py-10 sm:px-10 sm:py-14">
+      <div className="mx-auto max-w-3xl px-6 pt-28 pb-10 sm:px-10 sm:pt-32 sm:pb-14">
         <Suspense fallback={<CheckoutSkeleton />}>
           <CheckoutContent params={params} searchParams={searchParams} />
         </Suspense>
@@ -55,7 +55,7 @@ export default function CheckoutPage({ params, searchParams }: Props) {
 async function CheckoutContent({ params, searchParams }: Props) {
   const { slug } = await params;
   const { start, end } = await searchParams;
-  const car = getCar(slug);
+  const car = await getCar(slug);
 
   if (
     !car ||
