@@ -1,5 +1,5 @@
 // Use relative imports here — @/ aliases don't resolve outside the Next.js build context
-import { supabaseAdmin } from "../lib/supabase/admin";
+import { getSupabaseAdmin } from "../lib/supabase/admin";
 
 type SeedCar = {
   slug: string;
@@ -140,7 +140,7 @@ async function seed() {
     short_description: c.shortDescription,
   }));
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from("cars")
     .upsert(rows, { onConflict: "slug" })
     .select();

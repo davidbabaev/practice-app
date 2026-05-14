@@ -2,7 +2,7 @@ import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
 
-import { supabase } from "@/lib/supabase/server";
+import { getSupabase } from "@/lib/supabase/server";
 
 import type { Car, CarCategory } from "./cars";
 
@@ -41,7 +41,7 @@ export async function getAllCars(): Promise<Car[]> {
   cacheTag("cars");
   cacheLife("hours");
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("cars")
     .select("*")
     .order("created_at", { ascending: true });
@@ -59,7 +59,7 @@ export async function getAllSlugs(): Promise<string[]> {
   cacheTag("cars");
   cacheLife("hours");
 
-  const { data, error } = await supabase.from("cars").select("slug");
+  const { data, error } = await getSupabase().from("cars").select("slug");
 
   if (error) {
     console.error("getAllSlugs failed:", error.message);
@@ -74,7 +74,7 @@ export async function getCar(slug: string): Promise<Car | undefined> {
   cacheTag("cars");
   cacheLife("hours");
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("cars")
     .select("*")
     .eq("slug", slug)

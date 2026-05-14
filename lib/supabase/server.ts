@@ -1,18 +1,25 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+let client: SupabaseClient | undefined;
 
-if (!url) {
-  throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL");
+export function getSupabase(): SupabaseClient {
+  if (client) return client;
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!url) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL");
+  }
+  if (!publishableKey) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
+  }
+
+  client = createClient(url, publishableKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
+  return client;
 }
-if (!publishableKey) {
-  throw new Error("Missing NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
-}
-
-export const supabase = createClient(url, publishableKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
